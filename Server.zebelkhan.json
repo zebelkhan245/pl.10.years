@@ -1,0 +1,837 @@
+{
+  "log": {
+    "level": "warn",
+    "output": "box.log",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns-remote",
+        "address": "udp://1.1.1.1",
+        "address_resolver": "dns-direct"
+      },
+      {
+        "tag": "dns-trick-direct",
+        "address": "https://sky.rethinkdns.com/",
+        "detour": "direct-fragment"
+      },
+      {
+        "tag": "dns-direct",
+        "address": "1.1.1.1",
+        "address_resolver": "dns-local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-local",
+        "address": "local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-block",
+        "address": "rcode://success"
+      }
+    ],
+    "rules": [
+      {
+        "domain": "cp.cloudflare.com",
+        "server": "dns-remote",
+        "rewrite_ttl": 3000
+      },
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "server": "dns-direct"
+      }
+    ],
+    "final": "dns-remote",
+    "static_ips": {
+      "sky.rethinkdns.com": [
+        "198.18.0.50",
+        "198.18.0.51"
+      ]
+    },
+    "independent_cache": true
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "mtu": 9000,
+      "inet4_address": "172.19.0.1/28",
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": true,
+      "stack": "mixed",
+      "sniff": true,
+      "sniff_override_destination": true,
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 12334,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "type": "direct",
+      "tag": "dns-in",
+      "listen": "127.0.0.1",
+      "listen_port": 16450
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "select",
+      "outbounds": [
+        "auto",
+        "🇳🇱Nederland  § 0",
+        "🇳🇱Nederland § 1",
+        "🇳🇱Nederland § 2",
+        "🇳🇱Nederland § 3",
+        "🇳🇱Nederland § 4",
+        "🇳🇱Nederland § 5",
+        "🇳🇱Nederland § 6",
+        "🇳🇱Nederland § 7",
+        "🇵🇱poland § 8",
+        "🇵🇱poland § 9",
+        "🇵🇱poland § 10",
+        "🇵🇱poland § 11",
+        "🇵🇱poland § 12",
+        "🇵🇱poland § 13",
+        "🇵🇱poland § 14",
+        "🇵🇱poland § 15",
+        "🇩🇪germany § 16",
+        "🇩🇪germany § 17",
+        "germany § 18",
+        "🇩🇪germany § 19",
+        "🇩🇪germany § 20",
+        "🇩🇪germany § 21",
+        "🇩🇪germany § 22",
+        "🇩🇪germany § 23",
+        "🇩🇪germany § 24",
+        "🇩🇪germany § 25",
+        "🇩🇪germany § 26",
+        "🇩🇪germany § 27",
+        "🇩🇪germany § 28",
+        "🇩🇪germany § 29",
+        "🇩🇪germany § 30",
+        "🇩🇪germany § 31",
+        "🇩🇪germany § 32",
+        "🇩🇪germany § 33",
+        "🇩🇪germany § 34",
+        "🇩🇪germany § 35",
+        "🇩🇪germany § 36",
+        "🇩🇪germany § 37",
+        "🇩🇪germany § 38",
+        "🇩🇪germany § 39",
+        "🇩🇪germany § 40",
+        "🇩🇪germany § 41",
+        "🇩🇪germany § 42",
+        "🇩🇪germany § 43",
+        "🇩🇪germany § 44",
+        "🇩🇪germany § 45",
+        "🇩🇪germany § 46",
+        "🇩🇪germany § 47"
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": [
+        "🇳🇱Nederland  § 0",
+        "🇳🇱Nederland § 1",
+        "🇳🇱Nederland § 2",
+        "🇳🇱Nederland § 3",
+        "🇳🇱Nederland § 4",
+        "🇳🇱Nederland § 5",
+        "🇳🇱Nederland § 6",
+        "🇳🇱Nederland § 7",
+        "🇵🇱poland § 8",
+        "🇵🇱poland § 9",
+        "🇵🇱poland § 10",
+        "🇵🇱poland § 11",
+        "🇵🇱poland § 12",
+        "🇵🇱poland § 13",
+        "🇵🇱poland § 14",
+        "🇵🇱poland § 15",
+        "🇩🇪germany § 16",
+        "🇩🇪germany § 17",
+        "germany § 18",
+        "🇩🇪germany § 19",
+        "🇩🇪germany § 20",
+        "🇩🇪germany § 21",
+        "🇩🇪germany § 22",
+        "🇩🇪germany § 23",
+        "🇩🇪germany § 24",
+        "🇩🇪germany § 25",
+        "🇩🇪germany § 26",
+        "🇩🇪germany § 27",
+        "🇩🇪germany § 28",
+        "🇩🇪germany § 29",
+        "🇩🇪germany § 30",
+        "🇩🇪germany § 31",
+        "🇩🇪germany § 32",
+        "🇩🇪germany § 33",
+        "🇩🇪germany § 34",
+        "🇩🇪germany § 35",
+        "🇩🇪germany § 36",
+        "🇩🇪germany § 37",
+        "🇩🇪germany § 38",
+        "🇩🇪germany § 39",
+        "🇩🇪germany § 40",
+        "🇩🇪germany § 41",
+        "🇩🇪germany § 42",
+        "🇩🇪germany § 43",
+        "🇩🇪germany § 44",
+        "🇩🇪germany § 45",
+        "🇩🇪germany § 46",
+        "🇩🇪germany § 47"
+      ],
+      "url": "http://connectivitycheck.gstatic.com/generate_204",
+      "interval": "10m0s",
+      "idle_timeout": "1h40m0s"
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇱Nederland  § 0",
+      "server": "45.14.50.61",
+      "server_port": 8443,
+      "uuid": "18bf12ff-8899-48ed-8ed3-d86cef9ad4cb",
+      "tls": {
+        "enabled": true,
+        "server_name": "www.speedtest.net",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "daLrAi9S3YY1Dapy8-3Wo_Lt4akOcmJqNhfJjMT5XCU",
+          "short_id": "531b669cdbf7"
+        }
+      },
+      "transport": {
+        "type": "grpc",
+        "service_name": "JoinBadeChannel@antimeli",
+        "idle_timeout": "15s",
+        "ping_timeout": "15s"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇳🇱Nederland § 1",
+      "server": "152.70.49.115",
+      "server_port": 443,
+      "uuid": "1aae9657-c653-495d-e8ad-8ca52916cea8",
+      "tls": {
+        "enabled": true,
+        "server_name": "de.bolagskontaktstockholm.se",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/ws",
+        "headers": {
+          "Host": "de.bolagskontaktstockholm.se"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱Nederland § 2",
+      "server": "89.23.103.21",
+      "server_port": 51584,
+      "method": "chacha20-ietf-poly1305",
+      "password": "oYQ8JwEldYn4KT2gfZ6eNl"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱Nederland § 3",
+      "server": "5.35.47.122",
+      "server_port": 45635,
+      "method": "chacha20-ietf-poly1305",
+      "password": "CLphyEMQT8nbG8EImX0A2D"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱Nederland § 4",
+      "server": "150.241.68.171",
+      "server_port": 24064,
+      "method": "chacha20-ietf-poly1305",
+      "password": "LcEDAhRkNrjwB16SvN5d7fAmpswtGTAexB1qdzmeFrg="
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱Nederland § 5",
+      "server": "208.67.105.196",
+      "server_port": 42029,
+      "method": "chacha20-ietf-poly1305",
+      "password": "SjdGCHwafjktt1rzpGxTKYTvVBWb8Xa6E5DTr6MzbdHQSwvpLiDczj3n6MBjy2uyFSzgqgvCWsDQmpM4VQzfPzyGYF58wdyD"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱Nederland § 6",
+      "server": "109.201.152.181",
+      "server_port": 443,
+      "method": "aes-128-cfb",
+      "password": "shadowsocks"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱Nederland § 7",
+      "server": "89.23.103.125",
+      "server_port": 42090,
+      "method": "chacha20-ietf-poly1305",
+      "password": "uQS5ntVqC00sSKkeNzUiD3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 8",
+      "server": "217.30.10.18",
+      "server_port": 9094,
+      "method": "aes-256-cfb",
+      "password": "rpgbNnU9rDDU4aWZ"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 9",
+      "server": "217.30.10.18",
+      "server_port": 9025,
+      "method": "aes-256-cfb",
+      "password": "XPtzA9sCug3SPR4c"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 10",
+      "server": "51.77.53.200",
+      "server_port": 2375,
+      "method": "aes-256-gcm",
+      "password": "faBAoD54k87UJG7"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 11",
+      "server": "92.118.205.228",
+      "server_port": 990,
+      "method": "chacha20-ietf-poly1305",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 12",
+      "server": "217.30.10.18",
+      "server_port": 9059,
+      "method": "aes-256-cfb",
+      "password": "9XwYyZsK8SNzQDtY"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 13",
+      "server": "77.83.246.74",
+      "server_port": 33320,
+      "method": "chacha20-ietf-poly1305",
+      "password": "LqfCXjrJooVEXvcvzZHfGj"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 14",
+      "server": "51.77.53.200",
+      "server_port": 5004,
+      "method": "aes-256-gcm",
+      "password": "g5MeD6Ft3CWlJId"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇵🇱poland § 15",
+      "server": "51.77.53.200",
+      "server_port": 8080,
+      "method": "aes-256-gcm",
+      "password": "KixLvKzwjekG00rm"
+    },
+    {
+      "type": "vmess",
+      "tag": "🇩🇪germany § 16",
+      "server": "78.47.102.195",
+      "server_port": 49277,
+      "uuid": "99a0ff28-8f04-453c-9525-4344df0930b8",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "vmess",
+      "tag": "🇩🇪germany § 17",
+      "server": "78.47.102.195",
+      "server_port": 49277,
+      "uuid": "99a0ff28-8f04-453c-9525-4344df0930b8",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "vmess",
+      "tag": "germany § 18",
+      "server": "78.47.102.195",
+      "server_port": 49277,
+      "uuid": "99a0ff28-8f04-453c-9525-4344df0930b8",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "vmess",
+      "tag": "🇩🇪germany § 19",
+      "server": "78.47.102.195",
+      "server_port": 49277,
+      "uuid": "99a0ff28-8f04-453c-9525-4344df0930b8",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "vmess",
+      "tag": "🇩🇪germany § 20",
+      "server": "46.4.174.68",
+      "server_port": 27015,
+      "uuid": "a498d41c-a224-4441-cea3-dd62f96ed43e",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "vmess",
+      "tag": "🇩🇪germany § 21",
+      "server": "78.47.102.195",
+      "server_port": 56923,
+      "uuid": "de93e70d-af89-4b6c-a1d1-9ebb3c4a25d4",
+      "security": "auto",
+      "authenticated_length": true,
+      "transport": {
+        "type": "grpc",
+        "idle_timeout": "15s",
+        "ping_timeout": "15s"
+      }
+    },
+    {
+      "type": "vmess",
+      "tag": "🇩🇪germany § 22",
+      "server": "138.201.44.49",
+      "server_port": 4035,
+      "uuid": "9398b3da-690f-4648-abb7-9c4118449159",
+      "security": "auto",
+      "authenticated_length": true
+    },
+    {
+      "type": "vless",
+      "tag": "🇩🇪germany § 23",
+      "server": "212.224.93.93",
+      "server_port": 443,
+      "uuid": "14ba4514-3846-45c0-aec6-444e5451b95c",
+      "tls": {
+        "enabled": true,
+        "server_name": "blog.codegethub.org",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      },
+      "transport": {
+        "type": "ws",
+        "path": "/ws@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel----@PersiaTM_Channel",
+        "headers": {
+          "Host": "blog.codegethub.org"
+        },
+        "early_data_header_name": "Sec-WebSocket-Protocol"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇩🇪germany § 24",
+      "server": "188.245.210.61",
+      "server_port": 1413,
+      "uuid": "bda7e9f3-325e-48bc-8d54-85fdf1c8f84b",
+      "tls": {
+        "enabled": true,
+        "server_name": "refersion.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "lEwhnzi-AXac0OKNifuFXiXb6lZ3KBesYcnOtskui3o",
+          "short_id": "3f6c06267a2e5ea8"
+        }
+      },
+      "transport": {
+        "type": "grpc",
+        "service_name": "mgrpcmn",
+        "idle_timeout": "15s",
+        "ping_timeout": "15s"
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "vless",
+      "tag": "🇩🇪germany § 25",
+      "server": "194.164.180.24",
+      "server_port": 443,
+      "uuid": "ce7b5e36-a3a0-4f61-af4d-6ca132f892c5",
+      "flow": "xtls-rprx-vision",
+      "tls": {
+        "enabled": true,
+        "server_name": "google.com",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "firefox"
+        },
+        "reality": {
+          "enabled": true,
+          "public_key": "LRnxYf6GAqSZwr6JWbVSnq_pKW99mXJ5VjhtLJMzom0",
+          "short_id": "5c75A51C"
+        }
+      },
+      "packet_encoding": ""
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 26",
+      "server": "80.92.204.106",
+      "server_port": 9010,
+      "method": "aes-256-cfb",
+      "password": "f63gg8EruDnUrmz4"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 27",
+      "server": "80.92.204.106",
+      "server_port": 9094,
+      "method": "aes-256-cfb",
+      "password": "rpgbNnU9rDDU4aWZ"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 28",
+      "server": "80.92.204.106",
+      "server_port": 9080,
+      "method": "aes-256-cfb",
+      "password": "VP8ZPxQpJtZRCjfZ"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 29",
+      "server": "80.92.204.106",
+      "server_port": 9005,
+      "method": "aes-256-cfb",
+      "password": "ZET59LF6DvCC8KVt"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 30",
+      "server": "23.88.54.248",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "bux48kicKesu2GwIaqNKYmLRQR1DDaalwDxWYKOmeOI="
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 31",
+      "server": "80.92.204.106",
+      "server_port": 9027,
+      "method": "aes-256-cfb",
+      "password": "EXN3S3eQpjE7EJu8"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 32",
+      "server": "80.92.204.106",
+      "server_port": 9020,
+      "method": "aes-256-cfb",
+      "password": "BNmAXXxAHYpTRdzu"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 33",
+      "server": "80.92.204.106",
+      "server_port": 9046,
+      "method": "aes-256-cfb",
+      "password": "NvS8N4Vf8qAGPSCL"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 34",
+      "server": "80.92.204.106",
+      "server_port": 9031,
+      "method": "aes-256-cfb",
+      "password": "BwcAUZk8hUFAkDGN"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 35",
+      "server": "80.92.204.106",
+      "server_port": 9019,
+      "method": "aes-256-cfb",
+      "password": "GA9KzeEgvfxNrgmM"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 36",
+      "server": "23.157.88.61",
+      "server_port": 2376,
+      "method": "aes-256-gcm",
+      "password": "faBAoD54k87UJG7"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 37",
+      "server": "80.92.204.106",
+      "server_port": 9000,
+      "method": "aes-256-cfb",
+      "password": "a3GFYt36Sm82Vys9"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 38",
+      "server": "80.92.204.106",
+      "server_port": 9006,
+      "method": "aes-256-cfb",
+      "password": "FAdUvMJUq5vDgKEq"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 39",
+      "server": "80.92.204.106",
+      "server_port": 9042,
+      "method": "aes-256-cfb",
+      "password": "S7KwUu7yBy58S3Ga"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 40",
+      "server": "80.92.204.106",
+      "server_port": 9084,
+      "method": "aes-256-cfb",
+      "password": "c3NtHJ5ujV2tGDfj"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 41",
+      "server": "84.19.31.63",
+      "server_port": 50841,
+      "method": "chacha20-ietf-poly1305",
+      "password": "2EtPqn6HYjUNcHohLfUpFQwnfjCCQ5mh1mJdEMCBucuWZ9P1udkRKHnVxuo55k1KXz2Fo6jrgt18W66opty1e4bm1jzfCfBb"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 42",
+      "server": "80.92.204.106",
+      "server_port": 9025,
+      "method": "aes-256-cfb",
+      "password": "XPtzA9sCug3SPR4c"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 43",
+      "server": "80.92.204.106",
+      "server_port": 9064,
+      "method": "aes-256-cfb",
+      "password": "cp8pRSUAyLhTfVWH"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 44",
+      "server": "80.92.204.106",
+      "server_port": 9011,
+      "method": "aes-256-cfb",
+      "password": "M3t2ZEQcMGRWBjRa"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇩🇪germany § 45",
+      "server": "193.108.119.230",
+      "server_port": 8080,
+      "method": "rc4-md5",
+      "password": "14fFPrbezE3HDZzsMOr6"
+    },
+    {
+      "type": "trojan",
+      "tag": "🇩🇪germany § 46",
+      "server": "35.159.150.49",
+      "server_port": 22222,
+      "password": "telegram-id-privatevpns",
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "trojan",
+      "tag": "🇩🇪germany § 47",
+      "server": "18.197.223.239",
+      "server_port": 22222,
+      "password": "telegram-id-directvpn",
+      "tls": {
+        "enabled": true,
+        "server_name": "trojan.burgerip.co.uk",
+        "alpn": "http/1.1",
+        "utls": {
+          "enabled": true,
+          "fingerprint": "chrome"
+        }
+      }
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "direct",
+      "tag": "direct-fragment",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "bypass"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "rule_set": [
+          "geosite-ads",
+          "geosite-malware",
+          "geosite-phishing",
+          "geosite-cryptominers",
+          "geoip-malware",
+          "geoip-phishing"
+        ],
+        "outbound": "block"
+      },
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "inbound": "dns-in",
+        "outbound": "dns-out"
+      },
+      {
+        "port": 53,
+        "outbound": "dns-out"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "select"
+      },
+      {
+        "geoip": "private",
+        "outbound": "bypass"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geoip-ir.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geosite-ir.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-ads",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-category-ads-all.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-malware",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-malware.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-phishing",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-phishing.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cryptominers",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-cryptominers.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-phishing",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geoip-phishing.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-malware",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geoip-malware.srs",
+        "update_interval": "120h0m0s"
+      }
+    ],
+    "final": "select",
+    "auto_detect_interface": true,
+    "override_android_vpn": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "clash.db"
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:16756",
+      "secret": "mldiWXMZeMCTxs6t"
+    }
+  }
+}
