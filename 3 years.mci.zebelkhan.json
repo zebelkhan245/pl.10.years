@@ -1,0 +1,664 @@
+{
+  "log": {
+    "level": "warn",
+    "output": "box.log",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "tag": "dns-remote",
+        "address": "udp://1.1.1.1",
+        "address_resolver": "dns-direct"
+      },
+      {
+        "tag": "dns-trick-direct",
+        "address": "https://sky.rethinkdns.com/",
+        "detour": "direct-fragment"
+      },
+      {
+        "tag": "dns-direct",
+        "address": "1.1.1.1",
+        "address_resolver": "dns-local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-local",
+        "address": "local",
+        "detour": "direct"
+      },
+      {
+        "tag": "dns-block",
+        "address": "rcode://success"
+      }
+    ],
+    "rules": [
+      {
+        "domain": [
+          "series-a2.samanehha.co",
+          "hk.1010520.xyz",
+          "th.1010520.xyz",
+          "id.1010520.xyz",
+          "series-a2-me.samanehha.co"
+        ],
+        "server": "dns-direct"
+      },
+      {
+        "domain": "cp.cloudflare.com",
+        "server": "dns-remote",
+        "rewrite_ttl": 3000
+      },
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "server": "dns-direct"
+      }
+    ],
+    "final": "dns-remote",
+    "static_ips": {
+      "sky.rethinkdns.com": [
+        "198.18.2.97",
+        "198.18.2.98"
+      ]
+    },
+    "independent_cache": true
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "mtu": 9000,
+      "inet4_address": "172.19.0.1/28",
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": true,
+      "stack": "mixed",
+      "sniff": true,
+      "sniff_override_destination": true,
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "127.0.0.1",
+      "listen_port": 12334,
+      "sniff": true,
+      "sniff_override_destination": true,
+      "domain_strategy": "ipv4_only"
+    },
+    {
+      "type": "direct",
+      "tag": "dns-in",
+      "listen": "127.0.0.1",
+      "listen_port": 16450
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "select",
+      "outbounds": [
+        "auto",
+        "Netherlands § 0",
+        "🇺🇸 us-newjersey § 1",
+        "🇳🇱 nl § 2",
+        "United States § 3",
+        "🇳🇱_NL_ § 4",
+        "🇧🇪_BE_ § 5",
+        "🇧🇪_BE_ § 6",
+        "🇱🇹_LT_ § 7",
+        "🇦🇫_AF_ § 8",
+        "🇬🇷_GR_ § 9",
+        "🇰🇿_KZ_ § 10",
+        "🇮🇸_IS_ § 11",
+        "🇲🇰_MK_ § 12",
+        "🇰🇪_KE_ § 13",
+        "🇭🇰香港02|流媒体|Udp-569 § 14",
+        "🇹🇭泰国02|流媒体|Udp-569 § 15",
+        "🇮🇩印度尼西亚02|流媒体|Udp-569 § 16",
+        "zebelkhan🇹🇷Turkey.good ip 5 § 17",
+        "zebelkhan🇹🇷Turkey.good ip 8 § 18",
+        "zebelkhan5🇹🇷Turkey.good ip § 19",
+        "zebelkhan🇹🇷Turkey.good ip 9 § 20",
+        "zebelkhan🇹🇷Turkey.good ip 15 § 21",
+        "zebelkhan🇹🇷Turkey.good ip 2 § 22",
+        "Turkey good ip 10  § 23",
+        "🇲🇰Macedonia(good ip) § 24",
+        "🇹🇷_TR_good ip § 25",
+        "Bahrain § 26",
+        "United Kingdom § 27",
+        "Macedonia good ip § 28",
+        "[TR]good ip § 29",
+        " United Kingdom § 30",
+        "Sweden  | MCI  § 31",
+        "Bahrain  § 32",
+        "Kenya  § 33",
+        "Vietnam good ip  § 34",
+        "Bahrain.zebel.mci.rightel § 35",
+        "\n United Kingdom🇬🇧 2 § 36",
+        "zebelkhan2 § 37",
+        "zebelkhan3 § 38",
+        "🇲🇩 § 39"
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": [
+        "Netherlands § 0",
+        "🇺🇸 us-newjersey § 1",
+        "🇳🇱 nl § 2",
+        "United States § 3",
+        "🇳🇱_NL_ § 4",
+        "🇧🇪_BE_ § 5",
+        "🇧🇪_BE_ § 6",
+        "🇱🇹_LT_ § 7",
+        "🇦🇫_AF_ § 8",
+        "🇬🇷_GR_ § 9",
+        "🇰🇿_KZ_ § 10",
+        "🇮🇸_IS_ § 11",
+        "🇲🇰_MK_ § 12",
+        "🇰🇪_KE_ § 13",
+        "🇭🇰香港02|流媒体|Udp-569 § 14",
+        "🇹🇭泰国02|流媒体|Udp-569 § 15",
+        "🇮🇩印度尼西亚02|流媒体|Udp-569 § 16",
+        "zebelkhan🇹🇷Turkey.good ip 5 § 17",
+        "zebelkhan🇹🇷Turkey.good ip 8 § 18",
+        "zebelkhan5🇹🇷Turkey.good ip § 19",
+        "zebelkhan🇹🇷Turkey.good ip 9 § 20",
+        "zebelkhan🇹🇷Turkey.good ip 15 § 21",
+        "zebelkhan🇹🇷Turkey.good ip 2 § 22",
+        "Turkey good ip 10  § 23",
+        "🇲🇰Macedonia(good ip) § 24",
+        "🇹🇷_TR_good ip § 25",
+        "Bahrain § 26",
+        "United Kingdom § 27",
+        "Macedonia good ip § 28",
+        "[TR]good ip § 29",
+        " United Kingdom § 30",
+        "Sweden  | MCI  § 31",
+        "Bahrain  § 32",
+        "Kenya  § 33",
+        "Vietnam good ip  § 34",
+        "Bahrain.zebel.mci.rightel § 35",
+        "\n United Kingdom🇬🇧 2 § 36",
+        "zebelkhan2 § 37",
+        "zebelkhan3 § 38",
+        "🇲🇩 § 39"
+      ],
+      "url": "http://connectivitycheck.gstatic.com/generate_204",
+      "interval": "10m0s",
+      "idle_timeout": "1h40m0s"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Netherlands § 0",
+      "server": "45.87.175.164",
+      "server_port": 8080,
+      "method": "chacha20-ietf-poly1305",
+      "password": "cvII85TrW6n0OGyfpHVS1u"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇺🇸 us-newjersey § 1",
+      "server": "37.19.198.160",
+      "server_port": 443,
+      "method": "aes-128-gcm",
+      "password": "shadowsocks"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱 nl § 2",
+      "server": "109.201.152.181",
+      "server_port": 443,
+      "method": "aes-128-cfb",
+      "password": "shadowsocks"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "United States § 3",
+      "server": "149.22.87.240",
+      "server_port": 443,
+      "method": "aes-128-gcm",
+      "password": "shadowsocks"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇳🇱_NL_ § 4",
+      "server": "163.172.218.169",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇧🇪_BE_ § 5",
+      "server": "192.71.249.71",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇧🇪_BE_ § 6",
+      "server": "192.71.249.108",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇱🇹_LT_ § 7",
+      "server": "192.36.61.59",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇦🇫_AF_ § 8",
+      "server": "121.127.46.147",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇬🇷_GR_ § 9",
+      "server": "192.71.166.100",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇰🇿_KZ_ § 10",
+      "server": "213.156.137.67",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇮🇸_IS_ § 11",
+      "server": "37.235.49.152",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇲🇰_MK_ § 12",
+      "server": "46.183.185.37",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇰🇪_KE_ § 13",
+      "server": "62.12.116.66",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "hysteria2",
+      "tag": "🇭🇰香港02|流媒体|Udp-569 § 14",
+      "server": "hk.1010520.xyz",
+      "server_port": 1002,
+      "password": "f5136746-de79-46d0-b3be-d15d9992fa07",
+      "tls": {
+        "enabled": true,
+        "server_name": "hk.1010520.xyz"
+      }
+    },
+    {
+      "type": "hysteria2",
+      "tag": "🇹🇭泰国02|流媒体|Udp-569 § 15",
+      "server": "th.1010520.xyz",
+      "server_port": 1002,
+      "password": "f5136746-de79-46d0-b3be-d15d9992fa07",
+      "tls": {
+        "enabled": true,
+        "server_name": "th.1010520.xyz"
+      }
+    },
+    {
+      "type": "hysteria2",
+      "tag": "🇮🇩印度尼西亚02|流媒体|Udp-569 § 16",
+      "server": "id.1010520.xyz",
+      "server_port": 1002,
+      "password": "f5136746-de79-46d0-b3be-d15d9992fa07",
+      "tls": {
+        "enabled": true,
+        "server_name": "id.1010520.xyz"
+      }
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan🇹🇷Turkey.good ip 5 § 17",
+      "server": "45.89.52.66",
+      "server_port": 9043,
+      "method": "aes-256-cfb",
+      "password": "HSZuyJQcWe8dxNdF"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan🇹🇷Turkey.good ip 8 § 18",
+      "server": "45.89.52.66",
+      "server_port": 9041,
+      "method": "aes-256-cfb",
+      "password": "U6qnYRhfyDmn8sgn"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan5🇹🇷Turkey.good ip § 19",
+      "server": "45.89.52.66",
+      "server_port": 9043,
+      "method": "aes-256-cfb",
+      "password": "HSZuyJQcWe8dxNdF"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan🇹🇷Turkey.good ip 9 § 20",
+      "server": "45.89.52.66",
+      "server_port": 9037,
+      "method": "aes-256-cfb",
+      "password": "TN2YqghxeFDKZfLU"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan🇹🇷Turkey.good ip 15 § 21",
+      "server": "45.89.52.66",
+      "server_port": 9000,
+      "method": "aes-256-cfb",
+      "password": "a3GFYt36Sm82Vys9"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan🇹🇷Turkey.good ip 2 § 22",
+      "server": "45.89.52.66",
+      "server_port": 9000,
+      "method": "aes-256-cfb",
+      "password": "a3GFYt36Sm82Vys9"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Turkey good ip 10  § 23",
+      "server": "45.89.52.66",
+      "server_port": 9043,
+      "method": "aes-256-cfb",
+      "password": "HSZuyJQcWe8dxNdF"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇲🇰Macedonia(good ip) § 24",
+      "server": "46.183.185.15",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇹🇷_TR_good ip § 25",
+      "server": "45.89.52.66",
+      "server_port": 9003,
+      "method": "aes-256-cfb",
+      "password": "JdmRK9gMEqFgs8nP"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Bahrain § 26",
+      "server": "series-a2-me.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "Bog0ELmMM9DSxDdQ"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "United Kingdom § 27",
+      "server": "series-a2.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "mps3FwmDjLrWaOVg"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Macedonia good ip § 28",
+      "server": "46.183.185.15",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "[TR]good ip § 29",
+      "server": "45.89.52.66",
+      "server_port": 9005,
+      "method": "aes-256-cfb",
+      "password": "ZET59LF6DvCC8KVt"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": " United Kingdom § 30",
+      "server": "series-a2.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "mps3FwmDjLrWaOVg"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Sweden  | MCI  § 31",
+      "server": "121.127.46.147",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Bahrain  § 32",
+      "server": "series-a2-me.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "Bog0ELmMM9DSxDdQ"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Kenya  § 33",
+      "server": "62.12.116.66",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Vietnam good ip  § 34",
+      "server": "103.163.218.2",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "Bahrain.zebel.mci.rightel § 35",
+      "server": "series-a2-me.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "Bog0ELmMM9DSxDdQ"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "\n United Kingdom🇬🇧 2 § 36",
+      "server": "series-a2.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "mps3FwmDjLrWaOVg"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan2 § 37",
+      "server": "series-a2.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "mps3FwmDjLrWaOVg"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "zebelkhan3 § 38",
+      "server": "series-a2-me.samanehha.co",
+      "server_port": 443,
+      "method": "chacha20-ietf-poly1305",
+      "password": "Bog0ELmMM9DSxDdQ"
+    },
+    {
+      "type": "shadowsocks",
+      "tag": "🇲🇩 § 39",
+      "server": "192.121.87.147",
+      "server_port": 989,
+      "method": "aes-256-cfb",
+      "password": "f8f7aCzcPKbsF8p3"
+    },
+    {
+      "type": "dns",
+      "tag": "dns-out"
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "direct",
+      "tag": "direct-fragment",
+      "tls_fragment": {
+        "enabled": true,
+        "size": "10-30",
+        "sleep": "2-8"
+      }
+    },
+    {
+      "type": "direct",
+      "tag": "bypass"
+    },
+    {
+      "type": "block",
+      "tag": "block"
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "rule_set": [
+          "geosite-ads",
+          "geosite-malware",
+          "geosite-phishing",
+          "geosite-cryptominers",
+          "geoip-malware",
+          "geoip-phishing"
+        ],
+        "outbound": "block"
+      },
+      {
+        "rule_set": [
+          "geoip-ir",
+          "geosite-ir"
+        ],
+        "outbound": "direct"
+      },
+      {
+        "inbound": "dns-in",
+        "outbound": "dns-out"
+      },
+      {
+        "port": 53,
+        "outbound": "dns-out"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "select"
+      },
+      {
+        "geoip": "private",
+        "outbound": "bypass"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geoip-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geoip-ir.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/country/geosite-ir.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-ads",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-category-ads-all.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-malware",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-malware.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-phishing",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-phishing.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cryptominers",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geosite-cryptominers.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-phishing",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geoip-phishing.srs",
+        "update_interval": "120h0m0s"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-malware",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/hiddify/hiddify-geo/rule-set/block/geoip-malware.srs",
+        "update_interval": "120h0m0s"
+      }
+    ],
+    "final": "select",
+    "auto_detect_interface": true,
+    "override_android_vpn": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "clash.db"
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:16756",
+      "secret": "enzRa6kdmcT_ZU7F"
+    }
+  }
+}
